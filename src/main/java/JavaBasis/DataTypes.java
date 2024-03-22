@@ -1,5 +1,6 @@
 package JavaBasis;
 
+import java.sql.SQLOutput;
 import java.util.Collections;
 
 public class DataTypes {
@@ -68,7 +69,7 @@ public class DataTypes {
 
         //7. Character:
         //size: 2 bytes = 16 bits
-        char c1='b'; //a to z
+        char c1='b'; //a to z this will store the ASCII value of the letter b
         char c2='B';//A to Z
         char c3='1'; // 0-9
         char c4='%';//special characters
@@ -86,6 +87,22 @@ public class DataTypes {
         boolean fglat=false;
         System.out.println(b1);
         // we use this in to asserttons
+
+
+        char G='c';//99
+        char H='d';//100
+
+        System.out.println(G*H);
+        System.out.println(G+H);
+        System.out.println(G-H);
+
+        //space ASCII = 32
+        System.out.println(G+" "+H);// G H
+        System.out.println(G+' '+H); //99+32+100=231
+
+
+
+
 
 
 
