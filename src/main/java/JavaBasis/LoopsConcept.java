@@ -33,6 +33,35 @@ public class LoopsConcept {
                 System.out.println(p);
             }
 
+            for (double d=1.0; d<=5.0; d++){
+                System.out.println(d);
+            }
+
+
+        System.out.println("-------------");
+
+            //charcters
+        for (char ch='a'; ch<='z'; ch++){
+            System.out.println(ch+"=" +(int)ch);// to print ascii table
+        }
+        /**
+         * difference btw WHILE and FOR loop
+         *
+         * While loop use cases: when number of iterations are not fixed
+         * 1. wait for element on the page : 10 , 5 , 20
+         * 2.Wait for page loading: page loading senarios
+         * 3.Webtable pagination : per page enteries
+         * 4.Calendar handling
+         * 5.page scrolling : Linkedin , swiggy or zomatoo
+         *
+         *
+         * //For loop
+         * 1-When number of iterations are fixed
+         * Month dropdown: 1-12
+         * Roles dropdown
+         * Checkboxes
+         */
+
 
     }
 }
