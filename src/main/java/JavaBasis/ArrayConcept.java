@@ -147,7 +147,13 @@ public class ArrayConcept {
          *          * To overcome this issue we have to use Dynamic array/ Arraylist
          *          * 2-It can store only similar type of data
          *          * To overcome this we can use Object array but this is still static array, then we can use ArrayList
-         *
+         * Good examples :
+         * Uber cab
+         * 5PM
+         * Booking [100]
+         * Movie hall tickets:120 seats
+         * Footers of the page
+         * Number of employee in the company
          */
 
 
