@@ -1,5 +1,7 @@
 package JavaBasis;
 
+import java.util.Arrays;
+
 public class Browser {
 
     //Acceptance critero
@@ -80,11 +82,19 @@ public class Browser {
      * How to return mutiple values from a function
      * @param args
      */
+
+
+    public int[] getData(){
+        int num[]={10,20,30};
+        return num;
+
+    }
     //Caller method
     public static void main(String[] args) {
         Browser br= new Browser();
 
-
+        int n[]=br.getData();
+        System.out.println(Arrays.toString(n));
         int m1=br.getStudentsMarks("Arti  ");
         System.out.println(m1);
         if (m1>=0 && m1<=100){
