@@ -24,6 +24,7 @@ public class constructorConcept {
      * const should be created for restricting the objects creation
      * function should be created for functionality , buisness logic
      * const.. is used to initialise the instance variables using the keyword as this.g=l
+     * we can use this. in method also....
      * static variables should not be created inside the const.. but in function it can be used
      * const will not be crated in heap and stack
      *
