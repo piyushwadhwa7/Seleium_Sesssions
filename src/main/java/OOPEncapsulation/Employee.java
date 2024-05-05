@@ -21,8 +21,10 @@ public class Employee {
     public String getName(){
         return name;
     }
-    public void setName(String name){
-        this.name=name;
+    public Employee setName(String name){
+        //this.name=name;
+        return this;
+
     }
     public int getAge(){
         return age;
@@ -42,4 +44,7 @@ public class Employee {
     public void setisActive(boolean isActive){
         this.isActive=isActive;
     }
+
+    // purpose of setters are for updating the values after settings once
+    // Evry class should return this key word then its a builder pattern
 }
