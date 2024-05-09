@@ -27,5 +27,10 @@ public class ArrayListGenerics {
         Collections.sort(markslist,Collections.reverseOrder());
         System.out.println(markslist);
 
+        System.out.println("---------");
+
+        markslist.remove(0);
+        System.out.println(markslist);
+
     }
 }
