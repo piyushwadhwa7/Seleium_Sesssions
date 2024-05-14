@@ -5,6 +5,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 public class BrowserUtil {
     WebDriver driver;
 
@@ -59,6 +64,21 @@ public class BrowserUtil {
         return driver.getCurrentUrl();
 
     }
+
+//    public Properties initProp() {
+//        Properties prop;
+//        try {
+//            FileInputStream ip = new FileInputStream(".\\src\\main\\java\\PropertiesConcept\\config.properties");
+//            prop = new Properties();
+//            prop.load(ip);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return prop;
+//
+//    }
 
     public void quitBrowser(){
         driver.quit();
