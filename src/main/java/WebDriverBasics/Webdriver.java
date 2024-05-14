@@ -44,6 +44,7 @@ public class Webdriver  {
          */
         //driver.close();
         driver.quit();
+        //driver.getTitle();in this case will get exception as ID IS NULL
 
         /**
          * Automation steps + validation = AUTOMATION TESTING
