@@ -22,6 +22,6 @@ public class WebElementConceptWithException {
 
         //NSE
 
-        driver.findElement(By.id("input-password")).sendKeys("password");
+        driver.findElement(By.id("input-password")).sendKeys("password");// null keys are not allowed
     }
 }

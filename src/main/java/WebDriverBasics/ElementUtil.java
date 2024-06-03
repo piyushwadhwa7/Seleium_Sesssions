@@ -12,10 +12,18 @@ public class ElementUtil {
         this.driver= driver;
     }
 
-    public  void doClick( By loctor){
-        getElement(loctor);
+    private void nullCheck(String value){
+        if (value==null){
+            throw new ElementException("value is null"+ value);
+        }
     }
-    public  void doSendKeys(By loctor, String value){
+
+    public  void doClick( By loctor){
+
+        getElement(loctor).click();
+    }
+    public  void doSendKeys(By loctor, String value ){
+        nullCheck(value);
         getElement(loctor).sendKeys(value);
     }
     public  WebElement getElement(By locator){// this is the generic function
