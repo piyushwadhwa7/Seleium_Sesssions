@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.xml.sax.Locator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ElementUtil {
     private WebDriver driver;
 
@@ -47,4 +50,50 @@ public class ElementUtil {
     public String doGetAttribute( By locator, String name){
         return getElement(locator).getAttribute(name);
     }
+
+
+    public  List<WebElement> getElements(By locator ){
+        return driver.findElements(locator);
+    }
+    public  int getElementsCount(By locator){
+        return getElements(locator).size();
+    }
+
+
+    /**
+     * WAF: To fetch the text oif each link and store it in some list and return
+     * @param locator
+     * @return List<String>
+     */
+    public  List<String> getElementsListText(By locator){
+        List<WebElement> elelist = getElements(locator);// creating an empty list here
+        List<String> eleTextList = new ArrayList<String>();
+        for (WebElement e: elelist){
+            String text = e.getText();
+            if (text.length()!=0){
+                eleTextList.add(text);// And when one by one we are fetching the text will add here in array list
+            }
+        }
+        return eleTextList;
+    }
+
+    /**
+     * WAP: TO fetch the list of attributes from the locators and store in array list and return
+     * @param locator
+     * @param AttrName
+     * @return List<String>
+     */
+
+    public  List<String> getElemntsAttributeList (By locator, String AttrName){
+        List<WebElement> imagesList = getElements(locator);
+        List<String> attrList = new ArrayList<String>();
+        for (WebElement e : imagesList) {
+            String attrvalue = e.getAttribute(AttrName);
+            if (attrvalue != null && attrvalue.length()!=0) {
+            }
+        }
+        return attrList;
+    }
 }
+
+

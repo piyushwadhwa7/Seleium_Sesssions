@@ -11,6 +11,9 @@ public class naigationConcept {
     // back
     //  forward
     // refresh
+    /**
+     * Selenium is using w3c( World web consortium )nb   standards for all his methods
+     */
 
     static WebDriver driver;
 
