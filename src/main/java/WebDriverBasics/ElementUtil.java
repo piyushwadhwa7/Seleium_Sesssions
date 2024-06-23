@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.xml.sax.Locator;
 
 import java.util.ArrayList;
@@ -94,6 +95,27 @@ public class ElementUtil {
         }
         return attrList;
     }
+
+
+    //***************************** Select dropdownUtils*********//
+    /**
+     * Tag name should be selecttag
+     */
+    public  void doSelectByIndex(By locator , int index){
+        Select select = new Select(getElement(locator));
+        select.selectByIndex(index);
+    }
+
+    public   void doSelectByText(By locator , String Text){
+        Select select = new Select(getElement(locator));
+        select.selectByVisibleText(Text);
+    }
+    public   void doSelectByValue(By locator , String value){
+        Select select = new Select(getElement(locator));
+        select.selectByValue(value);
+    }
+
+
 }
 
 
