@@ -21,7 +21,7 @@ public class SelectAlldropdownOptions {
 
         By country = By.id("Form_getForm_Country");
         By employees = By.id("Form_getForm_NoOfEmployees");
-        Select select = new Select(driver.findElement(country));
+        //Select select = new Select(driver.findElement(country));
 //        List<WebElement> country_options= select.getOptions();
 //        System.out.println(country_options.size());
 //        for (WebElement e: country_options){
@@ -32,11 +32,17 @@ public class SelectAlldropdownOptions {
         System.out.println(countryList);
         List<String> employeeList=getDropdownOptionsText(employees);
         System.out.println(employeeList);
+        System.out.println(getDropdownCount(country));
+        System.out.println(getDropdownCount(employees));
 
     }
 
     public static  WebElement getElement(By locator){
         return driver.findElement(locator);
+    }
+    public static int getDropdownCount(By locator){
+        Select select = new Select(driver.findElement(locator));
+        return select.getOptions().size();
     }
     public static List<String> getDropdownOptionsText(By locator){
         Select select = new Select(driver.findElement(locator));

@@ -106,13 +106,70 @@ public class ElementUtil {
         select.selectByIndex(index);
     }
 
-    public   void doSelectByText(By locator , String Text){
+    public void doSelectByText(By locator , String Text){
         Select select = new Select(getElement(locator));
         select.selectByVisibleText(Text);
     }
-    public   void doSelectByValue(By locator , String value){
+    public void doSelectByValue(By locator , String value){
         Select select = new Select(getElement(locator));
         select.selectByValue(value);
+    }
+
+    /**
+     * This is for fetching the dropdown text and count
+     * @param locator
+     * @return size ( count of the dropdown options)
+     */
+
+    public  int getDropdownCount(By locator){
+        Select select = new Select(driver.findElement(locator));
+        return select.getOptions().size();
+    }
+    public  List<String> getDropdownOptionsText(By locator){
+        Select select = new Select(driver.findElement(locator));
+        List<WebElement> optionsList= select.getOptions();
+        List<String>optionsTextList= new ArrayList<String>();// this is topcasting
+        System.out.println(optionsList.size());
+        for (WebElement e: optionsList){
+            String text=e.getText();
+            optionsTextList.add(text);
+        }
+        return optionsTextList;
+
+    }
+
+    /**
+     * Create a generic code for selecting the value from dropdown without using index, value and visibletext
+     * @param locator
+     * @param optionText
+     */
+    public void SelectValueFromDropdown(By locator , String optionText ){
+        Select select_country = new Select(getElement(locator));
+        List<WebElement> optionsList= select_country.getOptions();
+        for (WebElement e: optionsList){
+            String text= e.getText();
+            if (text.equals(optionText.trim())){
+                e.click();
+                break;
+            }
+        }
+    }
+
+    /**
+     * Genric method to fetch the value from dropdown and click on it without using the Select tag
+     * @param locator
+     * @param optionText
+     */
+
+    public void selectDropdownValueWithoutSelect(By locator, String optionText){
+        List<WebElement> optionList=getElements(locator);
+        for ( WebElement e: optionList){
+            String text=e.getText();
+            if (text.equals(optionText)){
+                e.click();
+                break;
+            }
+        }
     }
 
 
