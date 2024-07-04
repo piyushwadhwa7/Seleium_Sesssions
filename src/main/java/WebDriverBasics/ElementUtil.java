@@ -125,11 +125,16 @@ public class ElementUtil {
         Select select = new Select(driver.findElement(locator));
         return select.getOptions().size();
     }
+
+    /**
+     * This is how we can fetch the options visible in the dropdown in an String Array
+     * @param locator
+     * @return List< String ></>
+     */
     public  List<String> getDropdownOptionsText(By locator){
         Select select = new Select(driver.findElement(locator));
         List<WebElement> optionsList= select.getOptions();
         List<String>optionsTextList= new ArrayList<String>();// this is topcasting
-        System.out.println(optionsList.size());
         for (WebElement e: optionsList){
             String text=e.getText();
             optionsTextList.add(text);
