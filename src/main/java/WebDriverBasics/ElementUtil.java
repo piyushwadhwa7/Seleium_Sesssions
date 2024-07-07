@@ -178,6 +178,23 @@ public class ElementUtil {
     }
 
 
+    /**
+     * This method is used for finding a element on page is displayed or not
+     * @param locator
+     * @return a boolean value : True or false
+     */
+    public  boolean doIsDisplayed( By locator) {
+        try {
+            boolean flag = getElement(locator).isDisplayed();
+            System.out.println("element is displayed: " + locator);
+            return flag;
+        } catch (NoSuchElementException e) {
+            System.out.println(" element with locator" + locator + " is not dispayed");
+            return false;
+        }
+    }
+
+
 }
 
 
