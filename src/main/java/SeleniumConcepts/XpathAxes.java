@@ -19,7 +19,21 @@ public class XpathAxes {
         /**
          * Child to parent
          */
+        //option[@value='Albania']//parent::select
 
-        
+        /**
+         * Ancestor
+         * going to child to parent to grandparent
+         */
+        //option[@value='Albania']//ancestor::div
+        // it will give direct parent and all indirect grand parent as well
+
+        /**
+         * Parent -sibling
+         * Sibling : Following and preceding
+         */
+        //example: //a[text()='Joe.Root']/parent::td/preceding-sibling::td/input[@type='checkbox']
+
+
     }
 }
