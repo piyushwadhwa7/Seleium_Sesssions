@@ -34,7 +34,7 @@ public class DropdownOptionsWithoutSelectClass {
 //                break;
 //            }
 //        }
-        SelectValueFromDropdown(country,"Bermuda");
+        selectValueFromDropdown(country,"Bermuda");
 
         /**
          * Here we have not used any select class for the fethcing all count of the country dropodwn options
@@ -55,20 +55,28 @@ public class DropdownOptionsWithoutSelectClass {
     }
 
     /**
-     * Create a generic code for selecting the value from dropdown without using index, value and visibletext
-     * @param locator
-     * @param optionText
+     * Selects a value from a dropdown without using index, value, or visible text.
+     *
+     * @param locator The locator of the dropdown element.
+     * @param optionText The text of the option to be selected.
      */
-    public static void SelectValueFromDropdown(By locator , String optionText ){
-        Select select_country = new Select(getElement(locator));
-        List<WebElement> optionsList= select_country.getOptions();
-        for (WebElement e: optionsList){
-            String text= e.getText();
-            if (text.equals(optionText.trim())){
+    public static void selectValueFromDropdown(By locator, String optionText) {
+        // Get the dropdown element
+        Select selectCountry = new Select(getElement(locator));
+
+        // Get all the options of the dropdown
+        List<WebElement> optionsList = selectCountry.getOptions();
+
+        // Iterate over the options and find the one with the matching text
+        for (WebElement e : optionsList) {
+            String text = e.getText();
+            if (text.trim().equals(optionText.trim())) {
+                // Click on the option to select it
                 e.click();
                 break;
             }
         }
+
     }
 
     /**
