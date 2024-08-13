@@ -1,7 +1,5 @@
 package JavaBasis;
 
-import org.openqa.selenium.devtools.v117.network.model.CrossOriginEmbedderPolicyStatus;
-
 public class Employee {
 
     //Data members of the class
