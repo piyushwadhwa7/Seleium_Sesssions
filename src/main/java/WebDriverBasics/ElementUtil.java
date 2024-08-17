@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.xml.sax.Locator;
 
@@ -16,7 +17,12 @@ public class ElementUtil {
     public ElementUtil(WebDriver driver) {
         this.driver = driver;
     }
-
+    /**
+     * Checks if the given value is null and throws an ElementException if it is.
+     *
+     * @param  value  the value to be checked
+     * @throws ElementException  if the value is null
+     */
     private void nullCheck(String value) {
         if (value == null) {
             throw new ElementException("value is null" + value);
@@ -192,6 +198,34 @@ public class ElementUtil {
             System.out.println(" element with locator" + locator + " is not dispayed");
             return false;
         }
+    }
+
+    //***************************** Action class*********//
+    /**
+     * Handles the parent-child menu interaction by hovering over the parent element and clicking on the child element.
+     *
+     * @param  parentLocator  the locator for the parent element
+     * @param  childLocator   the locator for the child element
+     * @throws InterruptedException  if the thread is interrupted while sleeping
+     */
+    public  void handelParentSubMenu(By parentLocator, By childLocator) throws InterruptedException {
+        Actions act = new Actions(driver);
+        act.moveToElement(getElement(parentLocator)).perform();
+        Thread.sleep(2000);
+        doClick(childLocator);
+        //driver.findElement(By.xpath("//a[text()='Men Footwear']")).click();
+    }
+
+    /**
+     * Drag and drop
+     * @param sourceLocator
+     * @param targetLocator
+     * @throws InterruptedException
+     */
+    public void dragAndDrop(By sourceLocator, By targetLocator) throws InterruptedException {
+        Actions act = new Actions(driver);
+        Thread.sleep(2000);
+        act.clickAndHold(getElement(sourceLocator)).moveToElement(getElement(targetLocator)).release().perform();
     }
 
 
