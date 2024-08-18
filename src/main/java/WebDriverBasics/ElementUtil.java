@@ -228,6 +228,49 @@ public class ElementUtil {
         act.clickAndHold(getElement(sourceLocator)).moveToElement(getElement(targetLocator)).release().perform();
     }
 
+    /**
+     * This is used to click on the element same as DoClick but more effective
+     * We can use both of these when we are getting ElementNotInteractableException
+     * @param locator
+     * @param value
+     */
+    public void ActionDoClick(By locator, String value) {
+        Actions act = new Actions(driver);
+        act.click(getElement(locator)).perform();
+    }
+
+    /**
+     * This is used same as sendkeys but more effective
+     * @param locator
+     * @param value
+     */
+    public  void ActionSendKeys(By locator, String value) {
+        Actions act = new Actions(driver);
+        act.sendKeys(getElement(locator), value).perform();
+    }
+    /**
+     * This is also a good example of method overloading
+     * This can be used in any type of multilevel menue
+     * This is ,ore efficient and can be used for any type of multilevel menue
+     * @param level1
+     * @param level2
+     * @param level3
+     * @param level4
+     * @throws InterruptedException
+     */
+    public  void MultilevelMenue(By level1, String level2, String level3, String level4) throws InterruptedException {
+        doClick(level1);
+        Actions act=new Actions(driver);
+        Thread.sleep(2000);
+        act.moveToElement(getElement(By.linkText(level2))).perform();
+        Thread.sleep(2000);
+        act.moveToElement(getElement(By.linkText(level3))).perform();
+        Thread.sleep(2000);
+        doClick(By.linkText(level4));
+        driver.quit();
+
+    }
+
 
 }
 
