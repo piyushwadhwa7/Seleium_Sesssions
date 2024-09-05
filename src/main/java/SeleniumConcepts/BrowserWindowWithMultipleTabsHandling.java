@@ -26,6 +26,9 @@ public class BrowserWindowWithMultipleTabsHandling {
         driver.findElement(By.xpath("//a[contains(@class,'navbar__item navbar__link header-twitter-link')]")).click();//child window
         driver.findElement(By.xpath("//a[contains(@class,'navbar__item navbar__link header-youtube-link')]")).click();//child window
         driver.findElement(By.xpath("//a[contains(@class,'navbar__item navbar__link header-discord-link')]")).click();//child window
+        //Window handler API's
+        //1.Any browser can be handled by this API
+        //2.Advertisments can also be handle
         Set<String> handles=driver.getWindowHandles();
         Iterator<String> it=handles.iterator();// Iterator is above the parent window
         while(it.hasNext()){
@@ -34,7 +37,7 @@ public class BrowserWindowWithMultipleTabsHandling {
             System.out.println(driver.getCurrentUrl());
             Thread.sleep(2000);
             if (!parentWindowId.equals(WindowId)){
-                driver.close();//close the window
+                driver.close();//close the window and after this driver will be lost so we have to come back to parent window
             }
         }
         driver.switchTo().window(parentWindowId);// come back to parent window
