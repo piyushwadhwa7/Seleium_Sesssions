@@ -5,9 +5,12 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.xml.sax.Locator;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -269,6 +272,63 @@ public class ElementUtil {
         doClick(By.linkText(level4));
         driver.quit();
 
+    }
+
+    //***************************** Wait Utils*****************//
+    /**
+     * This method is used to wait for the presence of the element on the page
+     * This does not neccessarily mean that the element is visible
+     * @param locator : By locator of the element
+     * @param timeOut : in seconds
+     * @return WebElement
+     */
+    public  WebElement waittForElementPresence(By locator, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+
+    }
+    /**
+     * This method is used to wait for the visibility of the element on the page
+     * This means that the element is not only displayed but also has height and widhth greater than 0
+     * @param locator : By locator of the element
+     * @param timeOut : in seconds
+     * @return WebElement
+     */
+    public  WebElement waittForElementVisisble(By locator, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
+    }
+    /**
+     * This method is used to click on the element after waiting for the visibility of the element on the page
+     * This means that the element is not only displayed but also has height and widhth greater than 0
+     * @param locator : By locator of the element
+     * @param timeOut : in seconds
+     */
+    public void doClickWithWait( By locator, int timeOut) {
+        waittForElementVisisble(locator, timeOut).click();
+    }
+    /**
+     * This method is used to send the keys to the element after waiting for the visibility of the element on the page
+     * This means that the element is not only displayed but also has height and widhth greater than 0
+     * @param loctor : By locator of the element
+     * @param value : string value to be sent
+     * @param timeOut : in seconds
+     */
+    public void doSendKeys(By loctor, String value , int timeOut) {
+        nullCheck(value);
+        waittForElementVisisble(loctor, timeOut).sendKeys(value);
+    }
+
+    /**
+     * This method is used to click on the element after waiting for the visibility of the element on the page
+     * This means that the element is not only displayed but also has height and widhth greater than 0
+     * @param locator : By locator of the element
+     * @param timeOut : in seconds
+     */
+    public void clickWhenReady(By locator, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
 
