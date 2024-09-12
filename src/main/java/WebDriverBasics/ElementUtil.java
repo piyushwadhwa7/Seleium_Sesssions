@@ -1,9 +1,6 @@
 package WebDriverBasics;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -329,6 +326,46 @@ public class ElementUtil {
     public void clickWhenReady(By locator, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+    }
+
+    /**
+     * This method will wait for the title to be matched with the given titleFraction
+     * and returns the title if the condition is met within the given timeout
+     * @param titleFraction
+     * @param timeOut
+     * @return
+     */
+    public  String waitForTitleContains( String titleFraction, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        try {
+            if (wait.until(ExpectedConditions.titleContains(titleFraction))) {
+                return driver.getTitle();
+            }
+
+        }catch (TimeoutException e) {
+            System.out.println("title not matched");
+        }
+        return driver.getTitle();
+    }
+    /**
+     * This method will wait for the title to be matched with the given titleValue
+     * and returns the title if the condition is met within the given timeout
+     * @param titleValue
+     * @param timeOut
+     * @return
+     */
+
+    public  String waitForTitleToBe( String titleValue, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        try {
+            if (wait.until(ExpectedConditions.titleContains(titleValue))) {
+                return driver.getTitle();
+            }
+
+        }catch (TimeoutException e) {
+            System.out.println("title not matched");
+        }
+        return driver.getTitle();
     }
 
 
