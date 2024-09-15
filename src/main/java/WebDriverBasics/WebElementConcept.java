@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class WebElementConcept {
-    static WebDriver driver;
+    public static WebDriver driver;
     public static void main(String[] args) {
 
         // create a webelemet + perform thge action ( click , send keys , isDisplayed)
