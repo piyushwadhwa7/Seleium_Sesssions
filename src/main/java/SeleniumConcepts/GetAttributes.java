@@ -20,9 +20,9 @@ public class GetAttributes {
         driver.get("https://www.flipkart.com/");
         By images = By.tagName("img");
         //List<WebElement> imagesList = eleutil.getElements(images);
-        eleutil.getElemntsAttributeList(images,"src");
+        eleutil.getElementAttributeList(images,"src");
         System.out.println("==================");
-        eleutil.getElemntsAttributeList(images,"alt");
+        eleutil.getElementAttributeList(images,"alt");
 
 
     }
