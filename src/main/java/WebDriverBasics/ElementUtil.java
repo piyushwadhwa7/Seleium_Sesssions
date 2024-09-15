@@ -1,374 +1,556 @@
 package WebDriverBasics;
-
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.xml.sax.Locator;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
+import WebDriverBasics.ElementException;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchFrameException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/**
+ *
+ * @author naveenautomationlabs
+ *
+ */
 public class ElementUtil {
+
     private WebDriver driver;
 
     public ElementUtil(WebDriver driver) {
         this.driver = driver;
     }
-    /**
-     * Checks if the given value is null and throws an ElementException if it is.
-     *
-     * @param  value  the value to be checked
-     * @throws ElementException  if the value is null
-     */
+
     private void nullCheck(String value) {
         if (value == null) {
-            throw new ElementException("value is null" + value);
+            throw new ElementException("VALUE IS NULL" + value);
         }
     }
 
-    public void doClick(By loctor) {
-
-        getElement(loctor).click();
-    }
-
-    public void doSendKeys(By loctor, String value) {
+    /**
+     *
+     * @param locator
+     * @param value
+     */
+    public void doSendKeys(By locator, String value) {
         nullCheck(value);
-        getElement(loctor).sendKeys(value);
+        getElement(locator).sendKeys(value);
     }
 
-    public WebElement getElement(By locator) {// this is the generic function
+    public void doSendKeys(By locator, String value, int timeOut) {
+        nullCheck(value);
+        waitForElementVisible(locator, timeOut).sendKeys(value);
+    }
+
+    public void doSendKeys(By locator, CharSequence... value) {
+        getElement(locator).sendKeys(value);
+    }
+
+    public WebElement getElement(By locator) {
         try {
             WebElement element = driver.findElement(locator);
-            return element;// here we are using or hitting the sever only once not mutiple times as in prior approcahes
+            return element;
         } catch (NoSuchElementException e) {
-            System.out.println("Element is not present on the page ... " + locator);
+            System.out.println("Element is not present on the page..." + locator);
             e.printStackTrace();
             return null;
         }
     }
 
+    public void doClick(By locator) {
+        getElement(locator).click();
+    }
+
+    public void doClick(By locator, int timeOut) {
+        waitForElementVisible(locator, timeOut).click();
+    }
+
     public String doGetText(By locator) {
         return getElement(locator).getText();
-
-    }
-    public String doGetAttribute( By locator, String name){
-        return getElement(locator).getAttribute(name);
     }
 
-
-    public  List<WebElement> getElements(By locator ){
-        return driver.findElements(locator);
-    }
-    public  int getElementsCount(By locator){
-        return getElements(locator).size();
+    public String doGetAttribute(By locator, String attrName) {
+        return getElement(locator).getAttribute(attrName);
     }
 
-
-    /**
-     * WAF: To fetch the text oif each link and store it in some list and return
-     * @param locator
-     * @return List<String>
-     */
-    public  List<String> getElementsListText(By locator){
-        List<WebElement> elelist = getElements(locator);// creating an empty list here
-        List<String> eleTextList = new ArrayList<String>();
-        for (WebElement e: elelist){
-            String text = e.getText();
-            if (text.length()!=0){
-                eleTextList.add(text);// And when one by one we are fetching the text will add here in array list
-            }
-        }
-        return eleTextList;
-    }
-
-    /**
-     * WAP: TO fetch the list of attributes from the locators and store in array list and return
-     * @param locator
-     * @param AttrName
-     * @return List<String>
-     */
-
-    public  List<String> getElemntsAttributeList (By locator, String AttrName){
-        List<WebElement> imagesList = getElements(locator);
-        List<String> attrList = new ArrayList<String>();
-        for (WebElement e : imagesList) {
-            String attrvalue = e.getAttribute(AttrName);
-            if (attrvalue != null && attrvalue.length()!=0) {
-            }
-        }
-        return attrList;
-    }
-
-
-    //***************************** Select dropdownUtils*********//
-    /**
-     * Tag name should be selecttag
-     */
-    public  void doSelectByIndex(By locator , int index){
-        Select select = new Select(getElement(locator));
-        select.selectByIndex(index);
-    }
-
-    public void doSelectByText(By locator , String Text){
-        Select select = new Select(getElement(locator));
-        select.selectByVisibleText(Text);
-    }
-    public void doSelectByValue(By locator , String value){
-        Select select = new Select(getElement(locator));
-        select.selectByValue(value);
-    }
-
-    /**
-     * This is for fetching the dropdown text and count
-     * @param locator
-     * @return size ( count of the dropdown options)
-     */
-
-    public  int getDropdownCount(By locator){
-        Select select = new Select(driver.findElement(locator));
-        return select.getOptions().size();
-    }
-
-    /**
-     * This is how we can fetch the options visible in the dropdown in an String Array
-     * @param locator
-     * @return List< String ></>
-     */
-    public  List<String> getDropdownOptionsText(By locator){
-        Select select = new Select(driver.findElement(locator));
-        List<WebElement> optionsList= select.getOptions();
-        List<String>optionsTextList= new ArrayList<String>();// this is topcasting
-        for (WebElement e: optionsList){
-            String text=e.getText();
-            optionsTextList.add(text);
-        }
-        return optionsTextList;
-
-    }
-
-    /**
-     * Create a generic code for selecting the value from dropdown without using index, value and visibletext
-     * @param locator
-     * @param optionText
-     */
-    public void SelectValueFromDropdown(By locator , String optionText ){
-        Select select_country = new Select(getElement(locator));
-        List<WebElement> optionsList= select_country.getOptions();
-        for (WebElement e: optionsList){
-            String text= e.getText();
-            if (text.equals(optionText.trim())){
-                e.click();
-                break;
-            }
-        }
-    }
-
-    /**
-     * Genric method to fetch the value from dropdown and click on it without using the Select tag
-     * @param locator
-     * @param optionText
-     */
-
-    public void selectDropdownValueWithoutSelect(By locator, String optionText){
-        List<WebElement> optionList=getElements(locator);
-        for ( WebElement e: optionList){
-            String text=e.getText();
-            if (text.equals(optionText)){
-                e.click();
-                break;
-            }
-        }
-    }
-
-
-    /**
-     * This method is used for finding a element on page is displayed or not
-     * @param locator
-     * @return a boolean value : True or false
-     */
-    public  boolean doIsDisplayed( By locator) {
+    public boolean doIsDisplayed(By locator) {
         try {
             boolean flag = getElement(locator).isDisplayed();
             System.out.println("element is displayed: " + locator);
             return flag;
         } catch (NoSuchElementException e) {
-            System.out.println(" element with locator" + locator + " is not dispayed");
+            System.out.println("element with locator : " + locator + " is not displayed");
+            return false;
+        }
+
+    }
+
+    public boolean isElementDisplayed(By locator) {
+        int elementCount = getElements(locator).size();
+        if (elementCount == 1) {
+            System.out.println("single element is displayed: " + locator);
+            return true;
+        } else {
+            System.out.println("multiple or zero elements are displayed: " + locator);
             return false;
         }
     }
 
-    //***************************** Action class*********//
-    /**
-     * Handles the parent-child menu interaction by hovering over the parent element and clicking on the child element.
-     *
-     * @param  parentLocator  the locator for the parent element
-     * @param  childLocator   the locator for the child element
-     * @throws InterruptedException  if the thread is interrupted while sleeping
-     */
-    public  void handelParentSubMenu(By parentLocator, By childLocator) throws InterruptedException {
+    public boolean isElementDisplayed(By locator, int expectedElementCount) {
+        int elementCount = getElements(locator).size();
+        if (elementCount == expectedElementCount) {
+            System.out.println("element is displayed: " + locator + " with the occurrence of " + elementCount);
+            return true;
+        } else {
+            System.out.println(
+                    "multiple or zero elements are displayed: " + locator + " with the occurrence of " + elementCount);
+            return false;
+        }
+    }
+
+    public List<WebElement> getElements(By locator) {
+        return driver.findElements(locator);
+    }
+
+    public int getElementsCount(By locator) {
+        return getElements(locator).size();
+    }
+
+    public List<String> getElementsTextList(By locator) {
+        List<WebElement> eleList = getElements(locator);
+        List<String> eleTextList = new ArrayList<String>();// pc=0, size=0
+
+        for (WebElement e : eleList) {
+            String text = e.getText();
+            if (text.length() != 0) {
+                eleTextList.add(text);
+            }
+        }
+
+        return eleTextList;
+    }
+
+    public List<String> getElementAttributeList(By locator, String attrName) {
+        List<WebElement> imagesList = getElements(locator);
+        List<String> attrList = new ArrayList<String>();
+        for (WebElement e : imagesList) {
+            String attrVal = e.getAttribute(attrName);
+            if (attrVal != null && attrVal.length() != 0) {
+                attrList.add(attrVal);
+                // System.out.println(attrVal);
+            }
+        }
+        return attrList;
+    }
+
+    // ********************** Select drop down utils **************//
+
+    public void doSelectByIndex(By locator, int index) {
+        Select select = new Select(getElement(locator));
+        select.selectByIndex(index);
+    }
+
+    public void doSelectByVisbleText(By locator, String visibleText) {
+        Select select = new Select(getElement(locator));
+        select.selectByVisibleText(visibleText);
+    }
+
+    public void doSelectByValue(By locator, String value) {
+        Select select = new Select(getElement(locator));
+        select.selectByValue(value);
+    }
+
+    public int getDropDownOptionsCount(By locator) {
+        Select select = new Select(driver.findElement(locator));
+        return select.getOptions().size();
+
+    }
+
+    public List<String> getDropDownOptionsTextList(By locator) {
+        Select select = new Select(driver.findElement(locator));
+
+        List<WebElement> optionsList = select.getOptions();
+        List<String> optionsTextList = new ArrayList<String>();
+
+        for (WebElement e : optionsList) {
+            String text = e.getText();
+            optionsTextList.add(text);
+        }
+
+        return optionsTextList;
+    }
+
+    public void selectValueFromDropDown(By locator, String optionText) {
+        Select select = new Select(getElement(locator));
+        List<WebElement> optionsList = select.getOptions();
+
+        for (WebElement e : optionsList) {
+            String text = e.getText();
+            if (text.equals(optionText.trim())) {
+                e.click();
+                break;
+            }
+        }
+
+    }
+
+    public void selectValueFromDropDownWithoutSelectClass(By locator, String optionText) {
+        List<WebElement> optionsList = getElements(locator);
+        for (WebElement e : optionsList) {
+            String text = e.getText();
+            if (text.equals(optionText)) {
+                e.click();
+                break;
+            }
+        }
+
+    }
+
+    public void doSearch(By searchField, String searchKey, By suggestions, String value) throws InterruptedException {
+        doSendKeys(searchField, searchKey);
+        Thread.sleep(3000);
+        List<WebElement> suggList = getElements(suggestions);
+        System.out.println(suggList.size());
+        for (WebElement e : suggList) {
+            String text = e.getText();
+            System.out.println(text);
+            if (text.contains(value)) {
+                e.click();
+                break;
+            }
+        }
+    }
+
+    // *****************Actions utils********************//
+
+    public void handleParentSubMenu(By parentLocator, By childLocator) throws InterruptedException {
         Actions act = new Actions(driver);
         act.moveToElement(getElement(parentLocator)).perform();
         Thread.sleep(2000);
         doClick(childLocator);
-        //driver.findElement(By.xpath("//a[text()='Men Footwear']")).click();
     }
 
-    /**
-     * Drag and drop
-     * @param sourceLocator
-     * @param targetLocator
-     * @throws InterruptedException
-     */
-    public void dragAndDrop(By sourceLocator, By targetLocator) throws InterruptedException {
+    public void doDragAndDrop(By sourcelocator, By targetLocator) {
         Actions act = new Actions(driver);
-        Thread.sleep(2000);
-        act.clickAndHold(getElement(sourceLocator)).moveToElement(getElement(targetLocator)).release().perform();
+        act.dragAndDrop(getElement(sourcelocator), getElement(targetLocator)).perform();
     }
 
-    /**
-     * This is used to click on the element same as DoClick but more effective
-     * We can use both of these when we are getting ElementNotInteractableException
-     * @param locator
-     * @param value
-     */
-    public void ActionDoClick(By locator, String value) {
+    public void doActionsSendKeys(By locator, String value) {
+        Actions act = new Actions(driver);
+        act.sendKeys(getElement(locator), value).perform();
+    }
+
+    public void doActionsClick(By locator) {
         Actions act = new Actions(driver);
         act.click(getElement(locator)).perform();
     }
 
     /**
-     * This is used same as sendkeys but more effective
+     * This method is used to enter the value in the text field with a pause.
+     *
+     * @param locator
+     * @param value
+     * @param pauseTime
+     */
+    public void doActionsSendKeysWithPause(By locator, String value, long pauseTime) {
+        Actions act = new Actions(driver);
+        char ch[] = value.toCharArray();
+        for (char c : ch) {
+            act.sendKeys(getElement(locator), String.valueOf(c)).pause(pauseTime).perform();
+        }
+    }
+
+    /**
+     * This method is used to enter the value in the text field with a pause of 500
+     * ms (by default).
+     *
      * @param locator
      * @param value
      */
-    public  void ActionSendKeys(By locator, String value) {
+    public void doActionsSendKeysWithPause(By locator, String value) {
         Actions act = new Actions(driver);
-        act.sendKeys(getElement(locator), value).perform();
+        char ch[] = value.toCharArray();
+        for (char c : ch) {
+            act.sendKeys(getElement(locator), String.valueOf(c)).pause(500).perform();
+        }
     }
-    /**
-     * This is also a good example of method overloading
-     * This can be used in any type of multilevel menue
-     * This is ,ore efficient and can be used for any type of multilevel menue
-     * @param level1
-     * @param level2
-     * @param level3
-     * @param level4
-     * @throws InterruptedException
-     */
-    public  void MultilevelMenue(By level1, String level2, String level3, String level4) throws InterruptedException {
+
+    public void level4MenuSubMenuHandlingUsingClick(By level1, String level2, String level3, String level4)
+            throws InterruptedException {
+
         doClick(level1);
-        Actions act=new Actions(driver);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+
+        Actions act = new Actions(driver);
         act.moveToElement(getElement(By.linkText(level2))).perform();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         act.moveToElement(getElement(By.linkText(level3))).perform();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         doClick(By.linkText(level4));
-        driver.quit();
+    }
+
+    public void level4MenuSubMenuHandlingUsingClick(By level1, By level2, By level3, By level4)
+            throws InterruptedException {
+
+        doClick(level1);
+        Thread.sleep(1000);
+
+        Actions act = new Actions(driver);
+        act.moveToElement(getElement(level2)).perform();
+        Thread.sleep(1000);
+        act.moveToElement(getElement(level3)).perform();
+        Thread.sleep(1000);
+        doClick(level4);
 
     }
 
-    //***************************** Wait Utils*****************//
+    public void level4MenuSubMenuHandlingUsingMouseHover(By level1, By level2, By level3, By level4)
+            throws InterruptedException {
+
+        Actions act = new Actions(driver);
+
+        act.moveToElement(getElement(level1)).perform();
+        Thread.sleep(1000);
+
+        act.moveToElement(getElement(level2)).perform();
+        Thread.sleep(1000);
+        act.moveToElement(getElement(level3)).perform();
+        Thread.sleep(1000);
+        doClick(level4);
+
+    }
+
+    // *******************Wait Utils***************//
+
     /**
-     * This method is used to wait for the presence of the element on the page
-     * This does not neccessarily mean that the element is visible
-     * @param locator : By locator of the element
-     * @param timeOut : in seconds
-     * @return WebElement
+     * An expectation for checking that an element is present on the DOM of a page.
+     * This does not necessarily mean that the element is visible.
+     *
+     * @param locator
+     * @param timeOut
+     * @return
      */
-    public  WebElement waittForElementPresence(By locator, int timeOut) {
+    public WebElement waitForElementPresence(By locator, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 
     }
     /**
-     * This method is used to wait for the visibility of the element on the page
-     * This means that the element is not only displayed but also has height and widhth greater than 0
-     * @param locator : By locator of the element
-     * @param timeOut : in seconds
-     * @return WebElement
+     * An expectation for checking that an element is present on the DOM of a page
+     * and visible. Visibility means that the element is not only displayed but also
+     * has a height and width that is greater than 0.
+     *
+     * @param locator
+     * @param timeOut
+     * @return
      */
-    public  WebElement waittForElementVisisble(By locator, int timeOut) {
+    public WebElement waitForElementVisible(By locator, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
     }
-    /**
-     * This method is used to click on the element after waiting for the visibility of the element on the page
-     * This means that the element is not only displayed but also has height and widhth greater than 0
-     * @param locator : By locator of the element
-     * @param timeOut : in seconds
-     */
-    public void doClickWithWait( By locator, int timeOut) {
-        waittForElementVisisble(locator, timeOut).click();
-    }
-    /**
-     * This method is used to send the keys to the element after waiting for the visibility of the element on the page
-     * This means that the element is not only displayed but also has height and widhth greater than 0
-     * @param loctor : By locator of the element
-     * @param value : string value to be sent
-     * @param timeOut : in seconds
-     */
-    public void doSendKeys(By loctor, String value , int timeOut) {
-        nullCheck(value);
-        waittForElementVisisble(loctor, timeOut).sendKeys(value);
+
+
+    public  WebElement waitForElementVisible(By locator, int timeOut, int intervalTime) {
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(timeOut))
+                .pollingEvery(Duration.ofSeconds(intervalTime))
+                .ignoring(NoSuchElementException.class)
+                .withMessage("===element is not found===");
+
+
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+
     }
 
     /**
-     * This method is used to click on the element after waiting for the visibility of the element on the page
-     * This means that the element is not only displayed but also has height and widhth greater than 0
-     * @param locator : By locator of the element
-     * @param timeOut : in seconds
+     * An expectation for checking an element is visible and enabled such that you
+     * can click it.
+     *
+     * @param locator
+     * @param timeOut
      */
     public void clickWhenReady(By locator, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
     }
 
-    /**
-     * This method will wait for the title to be matched with the given titleFraction
-     * and returns the title if the condition is met within the given timeout
-     * @param titleFraction
-     * @param timeOut
-     * @return
-     */
-    public  String waitForTitleContains( String titleFraction, int timeOut) {
+    public String waitForTitleContains(String titleFraction, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+
         try {
             if (wait.until(ExpectedConditions.titleContains(titleFraction))) {
                 return driver.getTitle();
             }
-
-        }catch (TimeoutException e) {
-            System.out.println("title not matched");
+        } catch (TimeoutException e) {
+            System.out.println("title not found");
         }
         return driver.getTitle();
     }
-    /**
-     * This method will wait for the title to be matched with the given titleValue
-     * and returns the title if the condition is met within the given timeout
-     * @param titleValue
-     * @param timeOut
-     * @return
-     */
 
-    public  String waitForTitleToBe( String titleValue, int timeOut) {
+    public String waitForTitleToBe(String titleVal, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+
         try {
-            if (wait.until(ExpectedConditions.titleContains(titleValue))) {
+            if (wait.until(ExpectedConditions.titleIs(titleVal))) {
                 return driver.getTitle();
             }
-
-        }catch (TimeoutException e) {
-            System.out.println("title not matched");
+        } catch (TimeoutException e) {
+            System.out.println("title not found");
         }
         return driver.getTitle();
     }
+
+    public String waitForURLContains(String urlFraction, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+
+        try {
+            if (wait.until(ExpectedConditions.urlContains(urlFraction))) {
+                return driver.getCurrentUrl();
+            }
+        } catch (TimeoutException e) {
+            System.out.println("URL not found");
+        }
+        return driver.getCurrentUrl();
+    }
+
+    public String waitForURLToBe(String urlValue, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+
+        try {
+            if (wait.until(ExpectedConditions.urlToBe(urlValue))) {
+                return driver.getCurrentUrl();
+            }
+        } catch (TimeoutException e) {
+            System.out.println("URL not found");
+        }
+        return driver.getCurrentUrl();
+    }
+
+    public Alert waitForJSAlert(int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        return wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+    public Alert waitForJSAlert(int timeOut, int intervalTime) {
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(timeOut))
+                .pollingEvery(Duration.ofSeconds(intervalTime))
+                .ignoring(NoAlertPresentException.class)
+                .withMessage("===alert is not found===");
+        return wait.until(ExpectedConditions.alertIsPresent());
+    }
+
+
+    public String getAlertText(int timeOut) {
+        Alert alert = waitForJSAlert(timeOut);
+        String text = alert.getText();
+        alert.accept();
+        return text;
+    }
+
+    public void acceptAlert(int timeOut) {
+        waitForJSAlert(timeOut).accept();
+    }
+
+    public void dismissAlert(int timeOut) {
+        waitForJSAlert(timeOut).dismiss();
+    }
+
+    public void alertSendKeys(int timeOut, String value) {
+        Alert alert = waitForJSAlert(timeOut);
+        alert.sendKeys(value);
+        alert.accept();
+    }
+
+
+    //wait for iframes/frame:
+    /**
+     * An expectation for checking whether the given frame is available to switch
+     * to. If the frame is available it switches the given driver to the specified
+     * frame.
+     *
+     * @param frameLocator
+     * @param timeOut
+     */
+    public void waitForFrameByLocator(By frameLocator, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
+    }
+
+
+    public void waitForFrameByLocator(By frameLocator, int timeOut, int intervalTime) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(timeOut))
+                .pollingEvery(Duration.ofSeconds(intervalTime))
+                .ignoring(NoSuchFrameException.class)
+                .withMessage("===frame is not found===");
+
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
+
+    }
+
+
+    public void waitForFrameByIndex(int frameIndex, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameIndex));
+
+    }
+
+    public void waitForFrameByIndex(String frameIDOrName, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameIDOrName));
+
+    }
+
+    public void waitForFrameByIndex(WebElement frameElement, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameElement));
+
+    }
+
+
+    public boolean waitForWindowsToBe(int totalWindows, int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        return wait.until(ExpectedConditions.numberOfWindowsToBe(totalWindows));
+    }
+
+
+    public void isPageLoaded(int timeOut) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
+        String flag = wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'")).toString();//"true"
+
+        if(Boolean.parseBoolean(flag)) {
+            System.out.println("page is completely loaded");
+        }
+        else {
+            throw new RuntimeException("page is not loaded");
+        }
+    }
+
+    //click
+    //isPageLoaded -- new page
 
 
 }
+
+
+
+
 
 
