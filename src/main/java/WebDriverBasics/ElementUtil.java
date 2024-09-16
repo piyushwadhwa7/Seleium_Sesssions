@@ -356,14 +356,24 @@ public class ElementUtil {
      * @param locator
      * @param timeOut
      * @return
+     * Normal WebDriver wait
      */
     public WebElement waitForElementVisible(By locator, int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
     }
-
-
+    /**
+     * This method will wait for the element to be visible on the page for the given timeOut.
+     * It will poll the element every intervalTime seconds to check if the element is visible.
+     * If the element is visible, it will return the element.
+     * If the element is not visible after the given timeOut, it will throw an exception
+     * @param locator : By locator of the element
+     * @param timeOut : in seconds
+     * @param intervalTime : in seconds
+     * @return WebElement
+     * //WebDriver wait with fluent wait
+     */
     public  WebElement waitForElementVisible(By locator, int timeOut, int intervalTime) {
 
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
@@ -441,10 +451,25 @@ public class ElementUtil {
         return driver.getCurrentUrl();
     }
 
+    /**
+     * This method will wait for the URL to match the given URL Value
+     * and returns the URL if the condition is met within the given timeout
+     * @param urlValue
+     * @param timeOut
+     * @return
+     * this is normal webdriver wait
+     */
     public Alert waitForJSAlert(int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         return wait.until(ExpectedConditions.alertIsPresent());
     }
+    /**
+     * This method will wait for the JS Alert to be present on the page
+     * and returns the Alert object if the condition is met within the given timeout
+     * @param timeOut
+     * @return
+     * this is with fluent wait
+     */
 
     public Alert waitForJSAlert(int timeOut, int intervalTime) {
 
