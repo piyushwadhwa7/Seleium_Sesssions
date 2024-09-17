@@ -454,7 +454,6 @@ public class ElementUtil {
     /**
      * This method will wait for the URL to match the given URL Value
      * and returns the URL if the condition is met within the given timeout
-     * @param urlValue
      * @param timeOut
      * @return
      * this is normal webdriver wait
