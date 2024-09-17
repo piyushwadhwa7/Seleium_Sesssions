@@ -555,7 +555,10 @@ public class ElementUtil {
         return wait.until(ExpectedConditions.numberOfWindowsToBe(totalWindows));
     }
 
-
+    /**
+     * This is to check if page is loaded or not in the given timeout
+     * @param timeOut
+     */
     public void isPageLoaded(int timeOut) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         String flag = wait.until(ExpectedConditions.jsReturnsValue("return document.readyState === 'complete'")).toString();//"true"
