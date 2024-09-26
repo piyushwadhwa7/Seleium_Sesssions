@@ -22,7 +22,7 @@ public class OpenCartLoginTest {
         driver.get("https://naveenautomationlabs.com/opencart/index.php?route=account/login");
 
     }
-    @Test(description = "Checking Login Page Title....")
+    @Test(description = "Checking Login Page Title....",priority = 1)
     public void loginPagetitleTest() {
         String title = driver.getTitle();
         System.out.println("Page title is: " + title);

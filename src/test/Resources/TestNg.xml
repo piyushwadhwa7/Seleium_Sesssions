@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="TestNG Regression Suite" verbose="3" parallel="tests" thread-count="3" >
+    // Block number 1
+    <test name="Google Test _ chrome">
+<!--        <parameter name="browser" value="chrome" />-->
+<!--        <parameter name="url" value="https://google.com" />-->
+
+        <classes>
+            <class name="MyTest.GoogleTest" />
+
+        </classes>
+    </test>
+    // Block number 2
+    <test name="Open Cart Test">
+<!--        <parameter name="browser" value="firefox" />-->
+<!--        <parameter name="url"-->
+<!--                   value="https://naveenautomationlabs.com/opencart/index.php?route=account/login" />-->
+
+
+        <classes>
+            <class name="MyTest.OpenCartLoginTest" />
+        </classes>
+    </test>
+    //  Block number 3
+    <test name="OrangeHRM Test">
+<!--        <parameter name="browser" value="edge" />-->
+<!--        <parameter name="url"-->
+<!--                   value="https://www.freecodecamp.org/news/api-testing-with-postman-a-step-by-step-guide-using-the-spotify-api/" />-->
+
+
+        <classes>
+            <class name="MyTest.FreeCodeCampTest" />
+        </classes>
+    </test>
+
+
+
+</suite>
