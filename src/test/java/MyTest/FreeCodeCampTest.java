@@ -5,12 +5,11 @@ import org.testng.annotations.Test;
 public class FreeCodeCampTest extends BaseTest {
     @Test(description = "Checking  Page Title....")
     public void PagetitleTest() {
-        driver.get("https://www.freecodecamp.org/news/api-testing-with-postman-a-step-by-step-guide-using-the-spotify-api/");
         String title = driver.getTitle();
         System.out.println("Page title is: " + title);
         Assert.assertEquals(title, "API Testing with Postman: A Step-by-Step Guide Using the Spotify API", "Title not matched");// custom error message
     }
-    @Test(description = "Checking  Page Url....",priority = 1)
+    @Test(description = "Checking  Page Url....")
     public void PageUrlTest() {
         String Url = driver.getCurrentUrl();
         System.out.println("Page Url is: " + Url);
